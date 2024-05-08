@@ -1,0 +1,136 @@
+<!-- I got this Navigation bar template from: https://medium.com/@codewithrandomartical/100-navigation-bar-html-and-css-free-demo-source-code-0cf14eae0abf -->
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <title>Create Playlist</title>
+    <link rel="stylesheet" href="/navbarstyle.css">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/playliststyle.css">
+    <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <div class="html-container">
+        <div class="html-section">
+            <div class="html-project">
+                <div class="navigation">
+                    <nav>
+                        <ul class="nav-type">
+                            <li><a href="/home" class="active">Home</a></li>
+
+                            {{#unless isAdmin}}
+                                <li><a href="/playlists" class="active1">Playlists</a></li>
+                            {{/unless}}
+
+                            {{#if isAdmin}}
+                                <li><a href="/viewAccounts" class="active2">Accounts</a></li>
+                            {{/if}}
+                            <li><a href="/logout" class="active3">Logout</a></li>
+                            <p id="usernameDisplay">{{username}}</p>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <div class="create-playlist-div">
+            <form action="/createPlaylist" method="POST">
+                <h1>Create a Playlist</h1>
+                <hr>
+                <br>
+                <div class="input-container">
+                    <input type="text" id="playlistName" name="playlistName" placeholder="Playlist Name">
+                </div>
+                <br>
+                <div class="input-container">
+                    <input type="submit" id="createPlaylistButton" value="Create Playlist">
+                </div>
+            </form>
+        </div>
+
+        <div class="playlists-div">
+            <h1>Your Playlists</h1>
+            <hr>
+            <br>
+            <div class="display-playlists">
+            {{#each playlists}}
+            <div class="playlist" onclick="selectPlaylist('{{this.playlist_name}}')">
+                <h2>{{this.playlist_name}}</h2>
+            </div>
+            {{/each}}
+            </div>
+        </div>
+
+        <form action="/addSong" method="POST">
+            <div class="add-song-container" style="display: none;">
+                <input type="hidden" id="selectedPlaylistName" name="selectedPlaylistName">
+                <h1></h1>
+                <hr>
+                <div class="display-songs">
+                    {{#each songs}}
+                    <div class="song">
+                        <hr>
+                        <h2>{{ this.song_title }}</h2>
+                        <p>Artist: {{ this.artist_name }}</p>
+                    </div>
+                    {{/each}}
+                </div>
+                <hr>
+                <br>
+                <h2>Add Songs:</h2>
+                <br>
+                <input type="text" id="songTitle" name="songTitle" placeholder="Song Title">
+                <br>
+                <br>
+                <input type="text" id="artistName" name="artistName" placeholder="Artist Name">
+                <br>
+                <br>
+                <input type="submit" id="addSongButton" value="Add Song">
+            </div>
+        </form>
+
+        <script>
+            var selectedPlaylist
+
+            function selectPlaylist(playlistName) {
+                selectedPlaylist = playlistName
+                console.log('Selected Playlist:', selectedPlaylist)
+                //Set the text of the h1 tag in add song container to the playlist name
+                document.querySelector('.add-song-container h1').innerText = playlistName + ' Playlist'
+                //Set the value of the selectedPlaylistName input section to the name of the playlist and send it to the server
+                document.querySelector('#selectedPlaylistName').value = playlistName
+                document.querySelector('.add-song-container').style.display = 'block'
+
+                //Since fetching the songs on a selected playlist is a DYNAMIC request and must be rendered on the client side, I made an AJAX call to /selectPlaylist endpoint which uses jQuery
+                $.ajax({
+                    type: 'GET',
+                    url: '/selectPlaylist',
+                    data: { selectedPlaylistName: selectedPlaylist }, //Pass in the name oft the selected playlist to data
+                    success: function(response) {
+                        //Clear the existing songs
+                        var displaySongsDiv = document.querySelector('.display-songs');
+                        displaySongsDiv.innerHTML = '';
+
+                        //Iterate over the songs received in the response and add them to the page
+                        response.songs.forEach(function (song) {
+                            var songDiv = document.createElement('div')
+                            songDiv.classList.add('song');
+                            songDiv.innerHTML = `
+                                <h2>${song.song_name}</h2>
+                                <p>Artist: ${song.artist_name}</p>
+                            `;
+
+                            displaySongsDiv.appendChild(songDiv)
+                        });
+                    },
+                    error: function (error) {
+                        console.log('Error fetching songs:', error)
+                    }
+                });
+            }
+        </script>
+</body>
+
+</html>

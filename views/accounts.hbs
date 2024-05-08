@@ -1,0 +1,50 @@
+<!-- I got this Navigation bar template from: https://medium.com/@codewithrandomartical/100-navigation-bar-html-and-css-free-demo-source-code-0cf14eae0abf -->
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <title>Home Page</title>
+    <link rel="stylesheet" href="/navbarstyle.css">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/accountsstyle.css">
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <div class="html-container">
+        <div class="html-section">
+            <div class="html-project">
+                <div class="navigation">
+                    <nav>
+                        <ul class="nav-type">
+                            <li><a href="/home" class="active">Home</a></li>
+                            {{#unless isAdmin}}
+                            <li><a href="/playlists" class="active1">Playlists</a></li>
+                            {{/unless}}
+                            <li><a href="/viewAccounts" class="active2">Accounts</a></li>
+                            <li><a href="/logout" class="active3">Logout</a></li>
+                            <p id="usernameDisplay">{{username}}</p>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="account-container">
+        <div class="account">
+            <h1>USER INFORMATION</h1>
+            <br>
+            {{#each users}}
+            <div class="user">
+                <h2>Username: <span class="info">{{this.username}}</span></h2>
+                <h2>Email: <span class="info">{{this.email}}</span></h2>
+                <h2>Password: <span class="info">{{this.password}}</span></h2>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+
+</body>
+
+</html>

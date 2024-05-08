@@ -1,0 +1,59 @@
+.dashboard-container {
+    position: absolute;
+    top: 15%; 
+    left: 10%; 
+    right: 10%; 
+    bottom: 10%; 
+    background-color: white;
+    padding: 20px;
+    border-radius: 20px;
+    border: 8px solid #ff5959; 
+    overflow-y: auto; 
+    max-height: 800px;
+}
+
+.dashboard {
+    width: 80%; 
+    margin: 0 auto;
+}
+
+hr {
+    margin: 20px 0;
+}
+
+.playlist {
+    border: 4px solid #ff5959; 
+    border-radius: 10px;
+    padding: 10px; 
+    margin-bottom: 10px; 
+    width: 100%; 
+    box-sizing: border-box; 
+}
+
+.playlist h2 {
+    display: inline-block; 
+}
+.playlist p {
+    display: inline-block; 
+    float: right; 
+}
+
+.delete-button {
+    margin-right: 10px;
+    padding: 5px 10px; 
+    font-size: 16px; 
+    border: 3px solid #ff5959; 
+    border-radius: 14px; 
+    background-color: white; 
+    color: black; 
+    transition: background-color 0.3s ease; 
+}
+
+.delete-button:hover {
+    background-color: #ff5959; 
+    color: black; 
+}
+
+.song {
+    color: #ff5959;
+}
