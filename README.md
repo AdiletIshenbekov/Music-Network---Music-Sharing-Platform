@@ -24,3 +24,12 @@ To test as Admin:
 - go to http://localhost:3000/ or http://localhost:3000/login
 - username: admin
 - password: secret
+
+# Tech Stack
+
+- JavaScript
+- HTML
+- CSS
+- Node.js
+- Express
+- SQLite3
