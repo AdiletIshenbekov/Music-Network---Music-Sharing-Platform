@@ -28,7 +28,7 @@ To test as Admin:
 # Tech Stack
 
 - JavaScript
-- HTML
+- Handlebars
 - CSS
 - Node.js
 - Express
